@@ -1,6 +1,6 @@
 Package: string2path
 Title: Rendering Font into 'data.frame'
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: 
     person(given = "Hiroaki",
            family = "Yutani",
@@ -19,11 +19,11 @@ URL: https://yutannihilation.github.io/string2path/,
 BugReports: https://github.com/yutannihilation/string2path/issues
 Encoding: UTF-8
 RoxygenNote: 7.1.1
-SystemRequirements: Cargo (rustc package manager)
+SystemRequirements: GNU make, Cargo (rustc package manager)
 Config/testthat/edition: 3
 NeedsCompilation: yes
-Packaged: 2021-08-02 16:32:17 UTC; yutani
+Packaged: 2021-08-07 01:40:35 UTC; yutani
 Author: Hiroaki Yutani [aut, cre] (<https://orcid.org/0000-0002-3385-7233>)
 Maintainer: Hiroaki Yutani <yutani.ini@gmail.com>
 Repository: CRAN
-Date/Publication: 2021-08-04 09:50:02 UTC
+Date/Publication: 2021-08-09 13:40:05 UTC

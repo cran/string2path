@@ -8,6 +8,8 @@
 [![R-CMD-check](https://github.com/yutannihilation/string2path/workflows/R-CMD-check/badge.svg)](https://github.com/yutannihilation/string2path/actions)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/string2path)](https://CRAN.R-project.org/package=string2path)
 <!-- badges: end -->
 
 The string2path R package converts a text to paths of the outlines of
@@ -32,6 +34,9 @@ install this package. See <https://www.rust-lang.org/tools/install> for
 the installation instructions.
 
 ``` r
+install.packages("string2path")
+
+# Or the development version from GitHub:
 # install.packages("devtools")
 devtools::install_github("yutannihilation/string2path")
 ```
