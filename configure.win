@@ -3,19 +3,9 @@ BEFORE_CARGO_BUILD=''
 AFTER_CARGO_BUILD=''
 CLEAN_EXTRA=''
 
-# Even when `cargo` is on `PATH`, `rustc` might not. We need to source
-# ~/.cargo/env to ensure PATH is configured correctly in some cases
-# (c.f. yutannihilation/string2path#4). However, this file is not always
-# available (e.g. when Rust is installed via apt on Ubuntu), so it might be
-# more straightforward to add `PATH` directly.
-if [ -e "${HOME}/.cargo/env" ]; then
-  . "${HOME}/.cargo/env"
-  BEFORE_CARGO_BUILD="${BEFORE_CARGO_BUILD} . \"${HOME}/.cargo/env\" \\&\\&"
-fi
-
 # Check the Rust installation, and, if not available, try downloading the
 # precompiled binary.
-"${R_HOME}/bin/Rscript" "./tools/configure.R"
+"${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" "./tools/configure.R"
 
 ret=$?
 
@@ -49,8 +39,8 @@ sed \
   -e "s|@CLEAN_EXTRA@|${CLEAN_EXTRA}|" \
   -e "s|@BEFORE_CARGO_BUILD@|${BEFORE_CARGO_BUILD}|" \
   -e "s|@AFTER_CARGO_BUILD@|${AFTER_CARGO_BUILD}|" \
-  src/Makevars.in > src/Makevars
+  src/Makevars.win.in > src/Makevars.win
 
 # Uncomment this to debug
 #
-# cat src/Makevars
+# cat src/Makevars.win

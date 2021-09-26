@@ -1,12 +1,14 @@
-49f85aa1561074f21be235959557f8e6 *DESCRIPTION
+5a502b3db5e3cef14bb7e638738a67fc *DESCRIPTION
 976b3a74a65b3141bfc88556d8d3c608 *LICENSE
 536533bb46292803ca7623f8b342f001 *NAMESPACE
-b50bc54ac451403bd3761296157f9197 *NEWS.md
+2ba014e46e4f737f6bb3e0afa77a72c7 *NEWS.md
 6330874b927e8d3ec616c96b0383a48e *R/extendr-wrappers.R
 d4a4af3f62e0401a2d581500a5a1cb6d *R/main.R
 abb26ea5b130eace9090299b9911d925 *R/string2path-package.R
 b1644c409a1790e0890b9b9afd057ff4 *README.md
-5a051bf733cc695c17b3eb9111b9d038 *configure
+992d2f3ed3d3adcc605afa2914a8175d *cleanup
+d05625ce676a61aef057cd6cf24a76be *configure
+d9e146aa3130d248de86129dca45aba4 *configure.win
 0748719347fda0c9874b4ba6ff3111c7 *man/figures/README-example-1.gif
 e82b48603bcfc885c2e7d0fcf492d319 *man/figures/README-example-1.png
 c37e8f1807f4985b7bcccb115a745c38 *man/figures/README-example-2.png
@@ -15,8 +17,8 @@ c37e8f1807f4985b7bcccb115a745c38 *man/figures/README-example-2.png
 52196c5794e91d8e429f467c1fd7c7ab *man/figures/README-example4-.gif
 07a25f317dd93b9aac7f7a05ba2003d4 *man/figures/README-string2stroke-.gif
 ca7eca2937e6460cbe118cabbb115962 *man/string2path.Rd
-da4582ece70d0f6f2bb6dd5fcfccfb84 *src/Makevars
-6d015665b35adaff39a645d381c7146e *src/Makevars.win
+715e221e6aa0bc1c01de9d59f0479b99 *src/Makevars.in
+241404ed07935e9e27bd6d63b4fb0a0f *src/Makevars.win.in
 ece953d16b192aaedf95402d38e4c7e9 *src/entrypoint.c
 0ff81d3ecce19a826db8532acfa15770 *src/rust/Cargo.lock
 df471e5201c5baeb9e53beae3058f320 *src/rust/Cargo.toml
@@ -33,3 +35,4 @@ c9d521ba1614ded495417b6d1eab981f *tests/testthat.R
 9696e244657ee5f7a2e6a5e7cf731e90 *tests/testthat/font/README.md
 aa45829a9028ac72648d9133650d6602 *tests/testthat/font/test.ttf
 4b3e5cc94cc2ffeec6e3f87e7e0e3f6e *tests/testthat/test-snapshot.R
+b854136e449cde50347d693266e6ed99 *tools/configure.R
