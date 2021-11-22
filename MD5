@@ -1,7 +1,7 @@
-5a502b3db5e3cef14bb7e638738a67fc *DESCRIPTION
+b648d1984898e8b141b5647c702a4f15 *DESCRIPTION
 976b3a74a65b3141bfc88556d8d3c608 *LICENSE
 536533bb46292803ca7623f8b342f001 *NAMESPACE
-2ba014e46e4f737f6bb3e0afa77a72c7 *NEWS.md
+60c670e8d1349d42148fbf1b4d3fea09 *NEWS.md
 6330874b927e8d3ec616c96b0383a48e *R/extendr-wrappers.R
 d4a4af3f62e0401a2d581500a5a1cb6d *R/main.R
 abb26ea5b130eace9090299b9911d925 *R/string2path-package.R
@@ -35,4 +35,4 @@ c9d521ba1614ded495417b6d1eab981f *tests/testthat.R
 9696e244657ee5f7a2e6a5e7cf731e90 *tests/testthat/font/README.md
 aa45829a9028ac72648d9133650d6602 *tests/testthat/font/test.ttf
 4b3e5cc94cc2ffeec6e3f87e7e0e3f6e *tests/testthat/test-snapshot.R
-b854136e449cde50347d693266e6ed99 *tools/configure.R
+74196bb42ac40acb7534f2e6fe4020b8 *tools/configure.R

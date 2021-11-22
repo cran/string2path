@@ -1,6 +1,6 @@
 Package: string2path
 Title: Rendering Font into 'data.frame'
-Version: 0.0.3
+Version: 0.0.4
 Authors@R: 
     person(given = "Hiroaki",
            family = "Yutani",
@@ -40,8 +40,8 @@ Config/string2path/binary_sha256sum: list(
         "26a05f6ee8c2f625027ffc77c97fc8ac9746a182f5bc53d64235999a02c0b0dc"
         )
 NeedsCompilation: yes
-Packaged: 2021-09-26 09:22:05 UTC; yutani
+Packaged: 2021-11-22 12:36:00 UTC; yutani
 Author: Hiroaki Yutani [aut, cre] (<https://orcid.org/0000-0002-3385-7233>)
 Maintainer: Hiroaki Yutani <yutani.ini@gmail.com>
 Repository: CRAN
-Date/Publication: 2021-09-26 09:30:02 UTC
+Date/Publication: 2021-11-22 12:50:02 UTC
