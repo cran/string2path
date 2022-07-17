@@ -6,17 +6,43 @@
 \alias{string2fill}
 \title{Convert a String to Paths}
 \usage{
-string2path(text, font_file, tolerance = 5e-05)
+string2path(
+  text,
+  font,
+  font_weight = c("normal", "thin", "extra_thin", "light", "medium", "semibold",
+    "bold", "extra_bold", "black"),
+  font_style = c("normal", "italic", "oblique"),
+  tolerance = 5e-05
+)
 
-string2stroke(text, font_file, tolerance = 5e-05, line_width = 0.03)
+string2stroke(
+  text,
+  font,
+  font_weight = c("normal", "thin", "extra_thin", "light", "medium", "semibold",
+    "bold", "extra_bold", "black"),
+  font_style = c("normal", "italic", "oblique"),
+  tolerance = 5e-05,
+  line_width = 0.03
+)
 
-string2fill(text, font_file, tolerance = 5e-05)
+string2fill(
+  text,
+  font,
+  font_weight = c("normal", "thin", "extra_thin", "light", "medium", "semibold",
+    "bold", "extra_bold", "black"),
+  font_style = c("normal", "italic", "oblique"),
+  tolerance = 5e-05
+)
 }
 \arguments{
 \item{text}{A text to convert to paths.}
 
-\item{font_file}{A path to a 'TrueType' font file ('.ttf') or an 'OpenType'
-font file ('.otf').}
+\item{font}{A font family (e.g. \code{"Arial"}) or a path to a font file (e.g.
+\code{"path/to/font.ttf"}).}
+
+\item{font_weight}{A font weight.}
+
+\item{font_style}{A font style.}
 
 \item{tolerance}{Maximum distance allowed between the curve and its
 approximation. For more details, please refer to \href{https://docs.rs/lyon/0.17.5/lyon/#what-is-the-tolerance-variable-in-these-examples}{the documentation of the underlying Rust library}.}
@@ -40,21 +66,22 @@ with the specified line width, of each glyph. \code{string2fill()} converts a te
 to the paths of the filled polygon of each glyph.
 }
 \examples{
-if (requireNamespace("systemfonts", quietly = TRUE)) {
-  available_fonts <- systemfonts::system_fonts()$path
+available_fonts <- dump_fontdb()
 
-  # string2path supports only TrueType or OpenType formats
-  ttf_or_otf <- available_fonts[grepl("\\\\.(ttf|otf)$", available_fonts)]
+if (nrow(available_fonts) > 0) {
+  family <- available_fonts$family[1]
+  weight <- available_fonts$weight[1]
+  style  <- available_fonts$style[1]
 
   # string2path() converts a text to paths
-  d_path <- string2path("TEXT", ttf_or_otf[1])
+  d_path <- string2path("TEXT", family, weight, style)
   plot(d_path$x, d_path$y)
   for (p in split(d_path, d_path$path_id)) {
     lines(p$x, p$y)
   }
 
   # string2stroke() converts a text to strokes
-  d_stroke <- string2stroke("TEXT", ttf_or_otf[1])
+  d_stroke <- string2stroke("TEXT", family, weight, style)
   plot(d_stroke$x, d_stroke$y)
 
   # The stroke is split into triangles, which can be distinguished by `triangle_id`
@@ -64,7 +91,7 @@ if (requireNamespace("systemfonts", quietly = TRUE)) {
   }
 
   # string2fill() converts a text to filled polygons
-  d_fill <- string2fill("TEXT", ttf_or_otf[1])
+  d_fill <- string2fill("TEXT", family, weight, style)
   plot(d_fill$x, d_fill$y)
 
   # The polygon is split into triangles, which can be distinguished by `triangle_id`

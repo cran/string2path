@@ -1,4 +1,6 @@
 use extendr_api::prelude::*;
+use font::FONTDB;
+use result::FontDBTibble;
 
 mod builder;
 mod font;
@@ -12,7 +14,31 @@ enum ConversionType {
     Fill,
 }
 
-fn string2path_inner(
+fn string2any_family(
+    text: &str,
+    font_family: &str,
+    font_weight: &str,
+    font_style: &str,
+    tolerance: f32,
+    line_width: f32,
+    ct: ConversionType,
+) -> Robj {
+    let mut builder = builder::LyonPathBuilder::new(tolerance, line_width);
+
+    builder
+        .outline(text, font_family, font_weight, font_style)
+        .unwrap();
+
+    let result = match ct {
+        ConversionType::Path => builder.into_path(),
+        ConversionType::Stroke => builder.into_stroke(),
+        ConversionType::Fill => builder.into_fill(),
+    };
+
+    result.try_into().unwrap()
+}
+
+fn string2any_file(
     text: &str,
     font_file: &str,
     tolerance: f32,
@@ -21,7 +47,7 @@ fn string2path_inner(
 ) -> Robj {
     let mut builder = builder::LyonPathBuilder::new(tolerance, line_width);
 
-    builder.outline(text, font_file).unwrap();
+    builder.outline_from_file(text, font_file).unwrap();
 
     let result = match ct {
         ConversionType::Path => builder.into_path(),
@@ -33,15 +59,43 @@ fn string2path_inner(
 }
 
 #[extendr(use_try_from = true)]
-fn string2path_impl(text: &str, font_file: &str, tolerance: f32) -> Robj {
-    string2path_inner(text, font_file, tolerance, 0., ConversionType::Path)
+fn string2path_family(
+    text: &str,
+    font_family: &str,
+    font_weight: &str,
+    font_style: &str,
+    tolerance: f32,
+) -> Robj {
+    string2any_family(
+        text,
+        font_family,
+        font_weight,
+        font_style,
+        tolerance,
+        0.,
+        ConversionType::Path,
+    )
 }
 
 #[extendr(use_try_from = true)]
-fn string2stroke_impl(text: &str, font_file: &str, tolerance: f32, line_width: f32) -> Robj {
-    string2path_inner(
+fn string2path_file(text: &str, font_file: &str, tolerance: f32) -> Robj {
+    string2any_file(text, font_file, tolerance, 0., ConversionType::Path)
+}
+
+#[extendr(use_try_from = true)]
+fn string2stroke_family(
+    text: &str,
+    font_family: &str,
+    font_weight: &str,
+    font_style: &str,
+    tolerance: f32,
+    line_width: f32,
+) -> Robj {
+    string2any_family(
         text,
-        font_file,
+        font_family,
+        font_weight,
+        font_style,
         tolerance,
         line_width,
         ConversionType::Stroke,
@@ -49,8 +103,89 @@ fn string2stroke_impl(text: &str, font_file: &str, tolerance: f32, line_width: f
 }
 
 #[extendr(use_try_from = true)]
-fn string2fill_impl(text: &str, font_file: &str, tolerance: f32) -> Robj {
-    string2path_inner(text, font_file, tolerance, 0., ConversionType::Fill)
+fn string2stroke_file(text: &str, font_file: &str, tolerance: f32, line_width: f32) -> Robj {
+    string2any_file(text, font_file, tolerance, line_width, ConversionType::Path)
+}
+
+#[extendr(use_try_from = true)]
+fn string2fill_family(
+    text: &str,
+    font_family: &str,
+    font_weight: &str,
+    font_style: &str,
+    tolerance: f32,
+) -> Robj {
+    string2any_family(
+        text,
+        font_family,
+        font_weight,
+        font_style,
+        tolerance,
+        0.,
+        ConversionType::Fill,
+    )
+}
+
+#[extendr(use_try_from = true)]
+fn string2fill_file(text: &str, font_file: &str, tolerance: f32) -> Robj {
+    string2any_file(text, font_file, tolerance, 0., ConversionType::Path)
+}
+
+#[extendr(use_try_from = true)]
+fn dump_fontdb_impl() -> Robj {
+    let mut source: Vec<String> = Vec::new();
+    let mut index: Vec<u32> = Vec::new();
+    let mut family: Vec<String> = Vec::new();
+    let mut weight: Vec<String> = Vec::new();
+    let mut style: Vec<String> = Vec::new();
+
+    for f in FONTDB.faces() {
+        source.push(match f.source {
+            fontdb::Source::Binary(_) => "(binary)".to_string(),
+            fontdb::Source::File(ref path) => path.to_string_lossy().to_string(),
+            fontdb::Source::SharedFile(ref path, _) => path.to_string_lossy().to_string(),
+        });
+
+        index.push(f.index);
+        family.push(f.family.clone());
+
+        #[rustfmt::skip]
+        weight.push(
+            match f.weight {
+                fontdb::Weight::THIN        => "thin",
+                fontdb::Weight::EXTRA_LIGHT => "extra_light",
+                fontdb::Weight::LIGHT       => "light",
+                fontdb::Weight::NORMAL      => "normal",
+                fontdb::Weight::MEDIUM      => "medium",
+                fontdb::Weight::SEMIBOLD    => "semibold",
+                fontdb::Weight::BOLD        => "bold",
+                fontdb::Weight::EXTRA_BOLD  => "extra_bold",
+                fontdb::Weight::BLACK       => "black",
+                _                           => "unknown",
+            }
+            .to_string(),
+        );
+
+        #[rustfmt::skip]
+        style.push(
+            match f.style {
+                fontdb::Style::Normal  => "normal",
+                fontdb::Style::Italic  => "italic",
+                fontdb::Style::Oblique => "oblique",
+            }
+            .to_string(),
+        );
+    }
+
+    let result = FontDBTibble {
+        source,
+        index,
+        family,
+        weight,
+        style,
+    };
+
+    result.try_into().unwrap()
 }
 
 // Macro to generate exports.
@@ -58,9 +193,13 @@ fn string2fill_impl(text: &str, font_file: &str, tolerance: f32) -> Robj {
 // See corresponding C code in `entrypoint.c`.
 extendr_module! {
     mod string2path;
-    fn string2path_impl;
-    fn string2stroke_impl;
-    fn string2fill_impl;
+    fn string2path_family;
+    fn string2path_file;
+    fn string2stroke_family;
+    fn string2stroke_file;
+    fn string2fill_family;
+    fn string2fill_file;
+    fn dump_fontdb_impl;
 }
 
 #[cfg(test)]
@@ -70,7 +209,9 @@ mod tests {
     #[test]
     fn test_path() {
         let mut builder = LyonPathBuilder::new(0.00001, 0.);
-        builder.outline("A", "test/font/test.ttf").unwrap();
+        builder
+            .outline_from_file("A", "test/font/test.ttf")
+            .unwrap();
         let result = builder.into_path();
 
         // the height of the test.ttf is 125 (ascent 100 + descent 25)
@@ -81,7 +222,9 @@ mod tests {
     #[test]
     fn test_stroke() {
         let mut builder = LyonPathBuilder::new(0.00001, 0.2);
-        builder.outline("A", "test/font/test.ttf").unwrap();
+        builder
+            .outline_from_file("A", "test/font/test.ttf")
+            .unwrap();
         let result = builder.into_stroke();
 
         assert!(result
@@ -97,7 +240,9 @@ mod tests {
     #[test]
     fn test_fill() {
         let mut builder = LyonPathBuilder::new(0.00001, 0.);
-        builder.outline("A", "test/font/test.ttf").unwrap();
+        builder
+            .outline_from_file("A", "test/font/test.ttf")
+            .unwrap();
         let result = builder.into_fill();
 
         // TODO: Is this correct...?

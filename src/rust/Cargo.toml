@@ -1,12 +1,14 @@
 [package]
 name = "string2path"
-version = "0.1.0"
-edition = "2018"
+version = "0.2.0"
+edition = "2021"
 
 [lib]
 crate-type = ["staticlib"]
 
 [dependencies]
-extendr-api = { git = "https://github.com/extendr/extendr.git", rev = "42d168bee850bbc3fdb3b0737832fe0f3679451d" }
-lyon = "0.17.5"
-ttf-parser = "0.12.3"
+extendr-api = { git = "https://github.com/yutannihilation/extendr.git", rev = "bb9e905dd1aede43387b88b28b620e8411707e24" }
+fontdb = "0.9.1"
+lyon = "1.0"
+once_cell = "1.13.0"
+ttf-parser = "0.15"
