@@ -5,4 +5,6 @@ TOOLCHAIN = stable-gnu
 # need to overwrite it via configuration.
 CARGO_LINKER = x86_64-w64-mingw32.static.posix-gcc.exe
 
+GCC_MOCK = yes
+
 include Makevars.win
