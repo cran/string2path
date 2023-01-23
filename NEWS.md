@@ -1,3 +1,8 @@
+# string2path 0.1.3
+
+* This is a maintenance release to fix a misassumption about Rust installation
+  on Windows.
+
 # string2path 0.1.2
 
 * This is a maintenance release to disable downloading pre-compiled binaries in
