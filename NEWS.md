@@ -1,3 +1,7 @@
+# string2path 0.1.4
+
+* Fix build failure with Rust >= 1.70 on Windows
+
 # string2path 0.1.3
 
 * This is a maintenance release to fix a misassumption about Rust installation
