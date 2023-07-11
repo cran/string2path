@@ -1,3 +1,8 @@
+# string2path 0.1.5
+
+* This is a maintenance release to fix a misassumption about R installation
+  without shared libraries.
+
 # string2path 0.1.4
 
 * Fix build failure with Rust >= 1.70 on Windows

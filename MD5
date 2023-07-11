@@ -1,8 +1,8 @@
-b3c4a5c2e098d6c4363e016e0d46db93 *DESCRIPTION
+906336e2f61a71837b506dcafe50408f *DESCRIPTION
 976b3a74a65b3141bfc88556d8d3c608 *LICENSE
 5dcbbf22bf1415c653b1e99166382bf7 *LICENSE.note
 b5a3b51fbdc2ca5c2f199ce68fe5c38c *NAMESPACE
-c3eaee84560a8dc6d2ec802e9f78b1fa *NEWS.md
+70c970ce0e138af97e0e52d0e23837a0 *NEWS.md
 9d43685051059c8cfe6db19517df57b5 *R/dump_fontdb.R
 a455fd6e8ffd0c4fd2a81c919a6c8dc4 *R/extendr-wrappers.R
 c845d81e89fdc19b0643434ea5ac78dd *R/main.R
@@ -15,10 +15,10 @@ c845d81e89fdc19b0643434ea5ac78dd *R/main.R
 48a55c1810cc318d09713eebab451b47 *man/string2path.Rd
 e3ce73b2b0731f1ad816c66f4473821c *src/Makevars.in
 4d36338f28fec52e7c64fa344020f95d *src/Makevars.win.in
-502a55399b9e2d1c4676fe06533ba6cf *src/cargo_vendor_config.toml
+ba3ddd17355271d11bb2f6d6b542a3bf *src/cargo_vendor_config.toml
 ece953d16b192aaedf95402d38e4c7e9 *src/entrypoint.c
-dc4b067dbd8cce5f0d0aaba2c23e4029 *src/rust/Cargo.lock
-727d8c57fbe9ad7c69297c7cb4dee468 *src/rust/Cargo.toml
+61873bd42705701323ba1506a98911ca *src/rust/Cargo.lock
+f720840ac974ac57fe2aac27c2abb0bd *src/rust/Cargo.toml
 f970d7c1c75e53b6ed64b55bf341a6eb *src/rust/src/builder.rs
 8839c0c4e747b27668d731ab38c6b97b *src/rust/src/font.rs
 6f88a36880d4e8709648e8fa619cacdc *src/rust/src/into_fill_stroke.rs
@@ -28,7 +28,7 @@ b4bbca32d28b45395dcf9890e19d69d2 *src/rust/src/into_path.rs
 411b8e81ecf50b6790dee6a3d7c9019e *src/rust/test/font/README.md
 aa45829a9028ac72648d9133650d6602 *src/rust/test/font/test.ttf
 fd45f401cef724750d5949f7b60f1775 *src/rust/vendor.sh
-0bd2b8d7f6d0aae38863169318d8920e *src/rust/vendor.tar.xz
+b6adb51d14a511edafd17a3a9e2be994 *src/rust/vendor.tar.xz
 63941d70f224c0c45a6d0f413ef5c9e8 *tests/testthat.R
 1f6d961acc3336c9ebbda34ce64c5cfc *tests/testthat/_snaps/snapshot.md
 411b8e81ecf50b6790dee6a3d7c9019e *tests/testthat/font/README.md
