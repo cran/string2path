@@ -10,65 +10,59 @@ checksum = "96d30a06541fbafbc7f82ed10c06164cfbd2c401138f6addd8404629c4b16711"
 
 [[package]]
 name = "autocfg"
-version = "1.1.0"
+version = "1.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
+checksum = "0c4b4d0bd25bd0b74681c0ad21497610ce1b7c91b1022cd21c80c6fbdd9476b0"
 
 [[package]]
 name = "cc"
-version = "1.0.83"
+version = "1.0.98"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f1174fb0b6ec23863f8b971027804a42614e347eafb0a95bf0b12cdae21fc4d0"
-dependencies = [
- "libc",
-]
+checksum = "41c270e7540d725e65ac7f1b212ac8ce349719624d7bcff99f8e2e488e8cf03f"
 
 [[package]]
 name = "euclid"
-version = "0.22.9"
+version = "0.22.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "87f253bc5c813ca05792837a0ff4b3a580336b224512d48f7eda1d7dd9210787"
+checksum = "e0f0eb73b934648cd7a4a61f1b15391cd95dab0b4da6e2e66c2a072c144b4a20"
 dependencies = [
  "num-traits",
 ]
 
 [[package]]
 name = "float_next_after"
-version = "0.1.5"
+version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4fc612c5837986b7104a87a0df74a5460931f1c5274be12f8d0f40aa2f30d632"
-dependencies = [
- "num-traits",
-]
+checksum = "8bf7cc16383c4b8d58b9905a8509f02926ce3058053c056376248d958c9df1e8"
 
 [[package]]
 name = "fontconfig-parser"
-version = "0.5.3"
+version = "0.5.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "674e258f4b5d2dcd63888c01c68413c51f565e8af99d2f7701c7b81d79ef41c4"
+checksum = "6a595cb550439a117696039dfc69830492058211b771a2a165379f2a1a53d84d"
 dependencies = [
  "roxmltree",
 ]
 
 [[package]]
 name = "fontdb"
-version = "0.15.0"
+version = "0.17.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "020e203f177c0fb250fb19455a252e838d2bbbce1f80f25ecc42402aafa8cd38"
+checksum = "6d2894eb653f564384ae8da32b78d9c8db0394715525d917328e435b9babd902"
 dependencies = [
  "fontconfig-parser",
  "log",
  "memmap2",
  "slotmap",
  "tinyvec",
- "ttf-parser 0.19.2",
+ "ttf-parser",
 ]
 
 [[package]]
 name = "libc"
-version = "0.2.149"
+version = "0.2.155"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a08173bc88b7955d1b3145aa561539096c421ac8debde8cbc3612ec635fee29b"
+checksum = "97b3888a4aecf77e811145cadf6eef5901f4782c53886191b2f693f24761847c"
 
 [[package]]
 name = "libm"
@@ -78,9 +72,9 @@ checksum = "4ec2a862134d2a7d32d7983ddcdd1c4923530833c9f2ea1a44fc5fa473989058"
 
 [[package]]
 name = "log"
-version = "0.4.20"
+version = "0.4.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b5e6163cb8c49088c2c36f57875e58ccd8c87c7427f7fbd50ea6710b2f3f2e8f"
+checksum = "90ed8c1e510134f979dbc4f070f87d4313098b704861a105fe34231c70a3901c"
 
 [[package]]
 name = "lyon"
@@ -94,9 +88,9 @@ dependencies = [
 
 [[package]]
 name = "lyon_algorithms"
-version = "1.0.3"
+version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "00a0349cd8f0270781bb93a824b63df6178e3b4a27794e7be3ce3763f5a44d6e"
+checksum = "a3bca95f9a4955b3e4a821fbbcd5edfbd9be2a9a50bb5758173e5358bfb4c623"
 dependencies = [
  "lyon_path",
  "num-traits",
@@ -104,9 +98,9 @@ dependencies = [
 
 [[package]]
 name = "lyon_geom"
-version = "1.0.4"
+version = "1.0.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "74df1ff0a0147282eb10699537a03baa7d31972b58984a1d44ce0624043fe8ad"
+checksum = "edecfb8d234a2b0be031ab02ebcdd9f3b9ee418fb35e265f7a540a48d197bff9"
 dependencies = [
  "arrayvec",
  "euclid",
@@ -115,9 +109,9 @@ dependencies = [
 
 [[package]]
 name = "lyon_path"
-version = "1.0.4"
+version = "1.0.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ca507745ba7ccbc76e5c44e7b63b1a29d2b0d6126f375806a5bbaf657c7d6c45"
+checksum = "9c08a606c7a59638d6c6aa18ac91a06aa9fb5f765a7efb27e6a4da58700740d7"
 dependencies = [
  "lyon_geom",
  "num-traits",
@@ -125,29 +119,29 @@ dependencies = [
 
 [[package]]
 name = "lyon_tessellation"
-version = "1.0.10"
+version = "1.0.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7d2124218d5428149f9e09520b9acc024334a607e671f032d06567b61008977c"
+checksum = "579d42360a4b09846eff2feef28f538696c7d6c7439bfa65874ff3cbe0951b2c"
 dependencies = [
  "float_next_after",
  "lyon_path",
- "thiserror",
+ "num-traits",
 ]
 
 [[package]]
 name = "memmap2"
-version = "0.8.0"
+version = "0.9.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "43a5a03cefb0d953ec0be133036f14e109412fa594edc2f77227249db66cc3ed"
+checksum = "fe751422e4a8caa417e13c3ea66452215d7d63e19e604f4980461212f3ae1322"
 dependencies = [
  "libc",
 ]
 
 [[package]]
 name = "num-traits"
-version = "0.2.17"
+version = "0.2.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "39e3200413f237f41ab11ad6d161bc7239c84dcb631773ccd7de3dfe4b5c267c"
+checksum = "071dfc062690e90b734c0b2273ce72ad0ffa95f0c74596bc250dcfd960262841"
 dependencies = [
  "autocfg",
  "libm",
@@ -155,42 +149,39 @@ dependencies = [
 
 [[package]]
 name = "once_cell"
-version = "1.18.0"
+version = "1.19.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dd8b5dd2ae5ed71462c540258bedcb51965123ad7e7ccf4b9a8cafaa4a63576d"
+checksum = "3fdb12b2476b595f9358c5161aa467c2438859caa136dec86c26fdd2efe17b92"
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.69"
+version = "1.0.84"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "134c189feb4956b20f6f547d2cf727d4c0fe06722b20a0eec87ed445a97f92da"
+checksum = "ec96c6a92621310b51366f1e28d05ef11489516e93be030060e5fc12024a49d6"
 dependencies = [
  "unicode-ident",
 ]
 
 [[package]]
 name = "quote"
-version = "1.0.33"
+version = "1.0.36"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5267fca4496028628a95160fc423a33e8b2e6af8a5302579e322e4b520293cae"
+checksum = "0fa76aaf39101c457836aec0ce2316dbdc3ab723cdda1c6bd4e6ad4208acaca7"
 dependencies = [
  "proc-macro2",
 ]
 
 [[package]]
 name = "roxmltree"
-version = "0.18.1"
+version = "0.19.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "862340e351ce1b271a378ec53f304a5558f7db87f3769dc655a8f6ecbb68b302"
-dependencies = [
- "xmlparser",
-]
+checksum = "3cd14fd5e3b777a7422cca79358c57a8f6e3a703d9ac187448d0daf220c2407f"
 
 [[package]]
 name = "savvy"
-version = "0.1.19"
+version = "0.6.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5f4fde07ca332736e5df239a4bcfbbb30cb76c997f4e084694426cf960a275b2"
+checksum = "a0ee0755ee6b80da65ee795ff2bd3484d53bd53f6a833433cea6f3248b7e501d"
 dependencies = [
  "cc",
  "once_cell",
@@ -200,9 +191,9 @@ dependencies = [
 
 [[package]]
 name = "savvy-bindgen"
-version = "0.1.19"
+version = "0.6.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3d997f061fcdf56ce60b5515f671d3d1b1ef401521c1ee2ed7467492eebfa958"
+checksum = "958ef28111b7e18f3b056345d9cdbde9565c65f4358abdc95bf45cebe104e772"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -211,15 +202,15 @@ dependencies = [
 
 [[package]]
 name = "savvy-ffi"
-version = "0.1.19"
+version = "0.6.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3405f314296bdb504aaec0f5ff3551b74917be9dd9d2e36949a672b202b34382"
+checksum = "fcd85a5d36724531674b53f6ac0ef03b250992d78758cf7ef7850566f4e5e7f4"
 
 [[package]]
 name = "savvy-macro"
-version = "0.1.19"
+version = "0.6.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4e884269440be52a9964c656458195f19c8a3deb0e709ac9a9fb9e764826f655"
+checksum = "e922d5f96f21e6253d3566d09683edb519a161f9916d1c992835b68ea55b7fad"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -229,9 +220,9 @@ dependencies = [
 
 [[package]]
 name = "slotmap"
-version = "1.0.6"
+version = "1.0.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e1e08e261d0e8f5c43123b7adf3e4ca1690d655377ac93a03b2c9d3e98de1342"
+checksum = "dbff4acf519f630b3a3ddcfaea6c06b42174d9a44bc70c620e9ed1649d58b82a"
 dependencies = [
  "version_check",
 ]
@@ -244,38 +235,18 @@ dependencies = [
  "lyon",
  "once_cell",
  "savvy",
- "ttf-parser 0.20.0",
+ "ttf-parser",
 ]
 
 [[package]]
 name = "syn"
-version = "2.0.38"
+version = "2.0.66"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e96b79aaa137db8f61e26363a0c9b47d8b4ec75da28b7d1d614c2303e232408b"
+checksum = "c42f3f41a2de00b01c0aaad383c5a45241efc8b2d1eda5661812fda5f3cdcff5"
 dependencies = [
  "proc-macro2",
  "quote",
  "unicode-ident",
-]
-
-[[package]]
-name = "thiserror"
-version = "1.0.49"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1177e8c6d7ede7afde3585fd2513e611227efd6481bd78d2e82ba1ce16557ed4"
-dependencies = [
- "thiserror-impl",
-]
-
-[[package]]
-name = "thiserror-impl"
-version = "1.0.49"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "10712f02019e9288794769fba95cd6847df9874d49d871d062172f9dd41bc4cc"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn",
 ]
 
 [[package]]
@@ -295,15 +266,9 @@ checksum = "1f3ccbac311fea05f86f61904b462b55fb3df8837a366dfc601a0161d0532f20"
 
 [[package]]
 name = "ttf-parser"
-version = "0.19.2"
+version = "0.21.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "49d64318d8311fc2668e48b63969f4343e0a85c4a109aa8460d6672e364b8bd1"
-
-[[package]]
-name = "ttf-parser"
-version = "0.20.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "17f77d76d837a7830fe1d4f12b7b4ba4192c1888001c7164257e4bc6d21d96b4"
+checksum = "2c591d83f69777866b9126b24c6dd9a18351f177e49d625920d19f989fd31cf8"
 
 [[package]]
 name = "unicode-ident"
@@ -316,9 +281,3 @@ name = "version_check"
 version = "0.9.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "49874b5167b65d7193b8aba1567f5c7d93d001cafc34600cee003eda787e483f"
-
-[[package]]
-name = "xmlparser"
-version = "0.13.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "66fee0b777b0f5ac1c69bb06d361268faafa61cd4682ae064a171c16c433e9e4"

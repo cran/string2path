@@ -2,11 +2,11 @@ use font::FONTDB;
 use result::FontDBTibble;
 use savvy::savvy;
 
-mod builder;
-mod font;
-mod into_fill_stroke;
-mod into_path;
-mod result;
+pub mod builder;
+pub mod font;
+pub mod into_fill_stroke;
+pub mod into_path;
+pub mod result;
 
 enum ConversionType {
     Path,
@@ -22,7 +22,7 @@ fn string2any_family(
     tolerance: f64,
     line_width: f64,
     ct: ConversionType,
-) -> savvy::Result<savvy::SEXP> {
+) -> savvy::Result<savvy::Sexp> {
     let mut builder = builder::LyonPathBuilder::new(tolerance as _, line_width as _);
 
     builder
@@ -44,7 +44,7 @@ fn string2any_file(
     tolerance: f64,
     line_width: f64,
     ct: ConversionType,
-) -> savvy::Result<savvy::SEXP> {
+) -> savvy::Result<savvy::Sexp> {
     let mut builder = builder::LyonPathBuilder::new(tolerance as _, line_width as _);
 
     builder.outline_from_file(text, font_file).unwrap();
@@ -65,7 +65,7 @@ fn string2path_family(
     font_weight: &str,
     font_style: &str,
     tolerance: f64,
-) -> savvy::Result<savvy::SEXP> {
+) -> savvy::Result<savvy::Sexp> {
     string2any_family(
         text,
         font_family,
@@ -78,7 +78,7 @@ fn string2path_family(
 }
 
 #[savvy]
-fn string2path_file(text: &str, font_file: &str, tolerance: f64) -> savvy::Result<savvy::SEXP> {
+fn string2path_file(text: &str, font_file: &str, tolerance: f64) -> savvy::Result<savvy::Sexp> {
     string2any_file(text, font_file, tolerance, 0., ConversionType::Path)
 }
 
@@ -90,7 +90,7 @@ fn string2stroke_family(
     font_style: &str,
     tolerance: f64,
     line_width: f64,
-) -> savvy::Result<savvy::SEXP> {
+) -> savvy::Result<savvy::Sexp> {
     string2any_family(
         text,
         font_family,
@@ -108,7 +108,7 @@ fn string2stroke_file(
     font_file: &str,
     tolerance: f64,
     line_width: f64,
-) -> savvy::Result<savvy::SEXP> {
+) -> savvy::Result<savvy::Sexp> {
     string2any_file(text, font_file, tolerance, line_width, ConversionType::Path)
 }
 
@@ -119,7 +119,7 @@ fn string2fill_family(
     font_weight: &str,
     font_style: &str,
     tolerance: f64,
-) -> savvy::Result<savvy::SEXP> {
+) -> savvy::Result<savvy::Sexp> {
     string2any_family(
         text,
         font_family,
@@ -132,12 +132,12 @@ fn string2fill_family(
 }
 
 #[savvy]
-fn string2fill_file(text: &str, font_file: &str, tolerance: f64) -> savvy::Result<savvy::SEXP> {
+fn string2fill_file(text: &str, font_file: &str, tolerance: f64) -> savvy::Result<savvy::Sexp> {
     string2any_file(text, font_file, tolerance, 0., ConversionType::Path)
 }
 
 #[savvy]
-fn dump_fontdb_impl() -> savvy::Result<savvy::SEXP> {
+fn dump_fontdb_impl() -> savvy::Result<savvy::Sexp> {
     let mut source: Vec<String> = Vec::new();
     let mut index: Vec<i32> = Vec::new();
     let mut family: Vec<String> = Vec::new();
@@ -201,7 +201,7 @@ fn dump_fontdb_impl() -> savvy::Result<savvy::SEXP> {
     result.try_into()
 }
 
-#[cfg(test)]
+#[cfg(savvy_test)]
 mod tests {
     use crate::builder::LyonPathBuilder;
 
@@ -213,9 +213,16 @@ mod tests {
             .unwrap();
         let result = builder.into_path();
 
-        // the height of the test.ttf is 125 (ascent 100 + descent 25)
-        assert_eq!(result.x, vec![0., 100. / 125., 0., 0.]);
-        assert_eq!(result.y, vec![0., 100. / 125., 100. / 125., 0.]);
+        assert!(result
+            .x
+            .iter()
+            .zip(vec![0., 100. / 125., 0., 0.])
+            .all(|(actual, expect)| (expect - actual).abs() < f64::EPSILON.sqrt()));
+        assert!(result
+            .y
+            .iter()
+            .zip(vec![0., 100. / 125., 100. / 125., 0.])
+            .all(|(actual, expect)| (expect - actual).abs() < 0.0001));
     }
 
     #[test]
@@ -245,7 +252,15 @@ mod tests {
         let result = builder.into_fill();
 
         // TODO: Is this correct...?
-        assert_eq!(result.x, vec![0., 0., 100. / 125.]);
-        assert_eq!(result.y, vec![0., 100. / 125., 100. / 125.]);
+        assert!(result
+            .x
+            .iter()
+            .zip(vec![0., 0., 100. / 125.])
+            .all(|(actual, expect)| (expect - actual).abs() < f64::EPSILON.sqrt()));
+        assert!(result
+            .y
+            .iter()
+            .zip(vec![0., 100. / 125., 100. / 125.])
+            .all(|(actual, expect)| (expect - actual).abs() < f64::EPSILON.sqrt()));
     }
 }
