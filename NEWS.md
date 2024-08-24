@@ -1,3 +1,7 @@
+# string2path 0.1.8
+
+* This is a maintenance release to comply with the CRAN repository policy.
+
 # string2path 0.1.7
 
 * This is a maintenance release to fix a build error on ARM Linux.
