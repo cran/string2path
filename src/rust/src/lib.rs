@@ -23,16 +23,22 @@ fn string2any_family(
     line_width: f64,
     ct: ConversionType,
 ) -> savvy::Result<savvy::Sexp> {
-    let mut builder = builder::LyonPathBuilder::new(tolerance as _, line_width as _);
-
-    builder
-        .outline(text, font_family, font_weight, font_style)
-        .unwrap();
-
     let result = match ct {
-        ConversionType::Path => builder.into_path(),
-        ConversionType::Stroke => builder.into_stroke(),
-        ConversionType::Fill => builder.into_fill(),
+        ConversionType::Path => {
+            let mut builder = builder::LyonPathBuilderForPath::new(tolerance as _, line_width as _);
+            builder.outline(text, font_family, font_weight, font_style)?;
+            builder.into_path()
+        }
+        ConversionType::Stroke | ConversionType::Fill => {
+            let mut builder =
+                builder::LyonPathBuilderForStrokeAndFill::new(tolerance as _, line_width as _);
+            builder.outline(text, font_family, font_weight, font_style)?;
+            if matches!(ct, ConversionType::Stroke) {
+                builder.into_stroke()
+            } else {
+                builder.into_fill()
+            }
+        }
     };
 
     result.try_into()
@@ -45,14 +51,22 @@ fn string2any_file(
     line_width: f64,
     ct: ConversionType,
 ) -> savvy::Result<savvy::Sexp> {
-    let mut builder = builder::LyonPathBuilder::new(tolerance as _, line_width as _);
-
-    builder.outline_from_file(text, font_file).unwrap();
-
     let result = match ct {
-        ConversionType::Path => builder.into_path(),
-        ConversionType::Stroke => builder.into_stroke(),
-        ConversionType::Fill => builder.into_fill(),
+        ConversionType::Path => {
+            let mut builder = builder::LyonPathBuilderForPath::new(tolerance as _, line_width as _);
+            builder.outline_from_file(text, font_file)?;
+            builder.into_path()
+        }
+        ConversionType::Stroke | ConversionType::Fill => {
+            let mut builder =
+                builder::LyonPathBuilderForStrokeAndFill::new(tolerance as _, line_width as _);
+            builder.outline_from_file(text, font_file)?;
+            if matches!(ct, ConversionType::Stroke) {
+                builder.into_stroke()
+            } else {
+                builder.into_fill()
+            }
+        }
     };
 
     result.try_into()
@@ -109,7 +123,13 @@ fn string2stroke_file(
     tolerance: f64,
     line_width: f64,
 ) -> savvy::Result<savvy::Sexp> {
-    string2any_file(text, font_file, tolerance, line_width, ConversionType::Path)
+    string2any_file(
+        text,
+        font_file,
+        tolerance,
+        line_width,
+        ConversionType::Stroke,
+    )
 }
 
 #[savvy]
@@ -133,7 +153,7 @@ fn string2fill_family(
 
 #[savvy]
 fn string2fill_file(text: &str, font_file: &str, tolerance: f64) -> savvy::Result<savvy::Sexp> {
-    string2any_file(text, font_file, tolerance, 0., ConversionType::Path)
+    string2any_file(text, font_file, tolerance, 0., ConversionType::Fill)
 }
 
 #[savvy]
@@ -201,7 +221,7 @@ fn dump_fontdb_impl() -> savvy::Result<savvy::Sexp> {
     result.try_into()
 }
 
-#[cfg(savvy_test)]
+#[cfg(feature = "savvy_test")]
 mod tests {
     use crate::builder::LyonPathBuilder;
 

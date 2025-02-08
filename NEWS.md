@@ -1,3 +1,25 @@
+# string2path 0.2.0
+
+* Partially support COLRv1 emoji fonts.
+  * COLRv1 emoji font is a color emoji, but not all color emoji is COLRv1
+    format. For example, Noto Color Emoji has several variants, and it seems
+    the primary one is CBDT/CBLC format.
+  * Additional information are currently just discarded.
+    * The clip and layer composition information are just discarded. While
+      this can be useful, it's not very easy to use these information in R.
+
+* Fix `string2fill()` and `string2stroke()`; when the second argument is a path
+  to a file, these unintentionally worked as `string2path()`.
+
+* `string2path()` now generates the same outline as `string2fill()` and 
+  `string2stroke()` (#69).
+
+* `path_id` and `glyph_id` are now 1-origin.
+
+* The result of `string2fill()` and `string2stroke()` now don't contain a
+  `path_id` column. I found the calculation of `path_id` had never been
+  correct, and it's probably better to remove it to avoid confusion.
+
 # string2path 0.1.8
 
 * This is a maintenance release to comply with the CRAN repository policy.

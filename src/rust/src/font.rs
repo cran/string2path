@@ -1,8 +1,8 @@
-use crate::builder::LyonPathBuilder;
+use crate::builder::{BuildPath, LyonPathBuilder, LyonPathBuilderForPaint};
 
 use once_cell::sync::Lazy;
 
-use ttf_parser::GlyphId;
+use ttf_parser::{GlyphId, RgbaColor};
 
 pub(crate) static FONTDB: Lazy<fontdb::Database> = Lazy::new(|| {
     let mut db = fontdb::Database::new();
@@ -43,7 +43,7 @@ impl From<FontLoadingError> for savvy::Error {
     }
 }
 
-impl LyonPathBuilder {
+impl<T: BuildPath> LyonPathBuilder<T> {
     pub fn outline(
         &mut self,
         text: &str,
@@ -139,7 +139,7 @@ impl LyonPathBuilder {
         let facetables = font.tables();
 
         let height = font.height() as f32;
-        self.scale_factor = 1. / height;
+        self.set_scale_factor(1. / height);
         let line_height = height + font.line_gap() as f32;
 
         let mut prev_glyph: Option<GlyphId> = None;
@@ -148,27 +148,53 @@ impl LyonPathBuilder {
             if c.is_control() {
                 // If the character is a line break, move to the next line
                 if c == '\n' {
-                    self.offset_y -= line_height;
-                    self.offset_x = 0.;
+                    self.sub_offset_y(line_height);
+                    self.reset_offset_x();
                 }
                 prev_glyph = None;
                 continue;
             }
+
+            // increment glyph ID for consistency
+            self.cur_glyph_id += 1;
+
             // Even when we cannot find glyph_id, fill it with 0.
             let cur_glyph = font.glyph_index(c).unwrap_or(GlyphId(0));
 
             if let Some(prev_glyph) = prev_glyph {
-                self.offset_x += find_kerning(facetables, prev_glyph, cur_glyph) as f32;
+                self.add_offset_x(find_kerning(facetables, prev_glyph, cur_glyph) as f32);
             }
 
-            font.outline_glyph(cur_glyph, self);
+            // outline the glyph except when it's a whitespace
+            if !c.is_whitespace() {
+                if font.is_color_glyph(cur_glyph) {
+                    let mut painter = LyonPathBuilderForPaint::new(self, &font);
+                    let fg_color = RgbaColor::new(0, 0, 0, 255);
+                    let res = font.paint_color_glyph(cur_glyph, 0, fg_color, &mut painter);
+                    res.ok_or_else(|| {
+                        let nm = font.glyph_name(cur_glyph).unwrap_or("unknown");
+                        savvy::Error::new(&format!(
+                            "Failed to outline char '{c}' (Glyph ID {}: {})",
+                            cur_glyph.0, nm
+                        ))
+                    })?;
+                } else {
+                    let res = font.outline_glyph(cur_glyph, self);
+                    res.ok_or_else(|| {
+                        let nm = font.glyph_name(cur_glyph).unwrap_or("unknown");
+                        savvy::Error::new(&format!(
+                            "Failed to outline char '{c}' (Glyph ID {}: {})",
+                            cur_glyph.0, nm
+                        ))
+                    })?;
+                }
+            }
 
             if let Some(ha) = font.glyph_hor_advance(cur_glyph) {
-                self.offset_x += ha as f32;
+                self.add_offset_x(ha as f32);
             }
 
             prev_glyph = Some(cur_glyph);
-            self.cur_glyph_id += 1;
         }
 
         Ok(())

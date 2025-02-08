@@ -36,6 +36,13 @@ License: MIT OR Apache-2.0
 
 ------------------------------
 
+Name:    core_maths
+Files:   vendor/core_maths/*
+Authors: Robert Bastian <me@robertbastian.dev
+License: MIT
+
+------------------------------
+
 Name:    euclid
 Files:   vendor/euclid/*
 Authors: The Servo Project Developers
@@ -74,20 +81,13 @@ License: MIT OR Apache-2.0
 Name:    libm
 Files:   vendor/libm/*
 Authors: Jorge Aparicio
-License: MIT OR Apache-2.0
+License: MIT AND (MIT OR Apache-2.0)
 
 ------------------------------
 
 Name:    log
 Files:   vendor/log/*
 Authors: The Rust Project Developers
-License: MIT OR Apache-2.0
-
-------------------------------
-
-Name:    lyon
-Files:   vendor/lyon/*
-Authors: Nicolas Silva
 License: MIT OR Apache-2.0
 
 ------------------------------
@@ -115,6 +115,13 @@ License: MIT OR Apache-2.0
 
 Name:    lyon_tessellation
 Files:   vendor/lyon_tessellation/*
+Authors: Nicolas Silva
+License: MIT OR Apache-2.0
+
+------------------------------
+
+Name:    lyon
+Files:   vendor/lyon/*
 Authors: Nicolas Silva
 License: MIT OR Apache-2.0
 
@@ -162,6 +169,13 @@ License: MIT OR Apache-2.0
 
 ------------------------------
 
+Name:    rustversion
+Files:   vendor/rustversion/*
+Authors: David Tolnay
+License: MIT OR Apache-2.0
+
+------------------------------
+
 Name:    savvy-bindgen
 Files:   vendor/savvy-bindgen/*
 Authors: Hiroaki Yutani
@@ -190,6 +204,13 @@ License: MIT
 
 ------------------------------
 
+Name:    shlex
+Files:   vendor/shlex/*
+Authors: comex, Fenhl, Adrian Taylor, Alex Touchet, Daniel Parks, Garrett Berg
+License: MIT OR Apache-2.0
+
+------------------------------
+
 Name:    slotmap
 Files:   vendor/slotmap/*
 Authors: Orson Peters
@@ -204,17 +225,17 @@ License: MIT OR Apache-2.0
 
 ------------------------------
 
-Name:    tinyvec
-Files:   vendor/tinyvec/*
-Authors: Lokathor
-License: Zlib OR Apache-2.0 OR MIT
-
-------------------------------
-
 Name:    tinyvec_macros
 Files:   vendor/tinyvec_macros/*
 Authors: Soveu
 License: MIT OR Apache-2.0 OR Zlib
+
+------------------------------
+
+Name:    tinyvec
+Files:   vendor/tinyvec/*
+Authors: Lokathor
+License: Zlib OR Apache-2.0 OR MIT
 
 ------------------------------
 
@@ -225,10 +246,17 @@ License: MIT OR Apache-2.0
 
 ------------------------------
 
+Name:    ttf-parser
+Files:   vendor/ttf-parser/*
+Authors: Caleb Maclennan, Laurenz Stampfl, Yevhenii Reizner, خالد حسني (Khaled Hosny)
+License: MIT OR Apache-2.0
+
+------------------------------
+
 Name:    unicode-ident
 Files:   vendor/unicode-ident/*
 Authors: David Tolnay
-License: (MIT OR Apache-2.0) AND Unicode-DFS-2016
+License: (MIT OR Apache-2.0) AND Unicode-3.0
 
 ------------------------------
 

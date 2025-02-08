@@ -1,6 +1,6 @@
 Package: string2path
 Title: Rendering Font into 'data.frame'
-Version: 0.1.8
+Version: 0.2.0
 Authors@R: 
     c(person(given = "Hiroaki",
              family = "Yutani",
@@ -16,21 +16,21 @@ Description: Extract glyph information from font data, and translate the
 License: MIT + file LICENSE
 Depends: R (>= 4.2)
 Imports: tibble, cli
-Suggests: testthat (>= 3.0.0)
+Suggests: testthat (>= 3.0.0), vdiffr
 URL: https://yutannihilation.github.io/string2path/,
         https://github.com/yutannihilation/string2path
 BugReports: https://github.com/yutannihilation/string2path/issues
 Encoding: UTF-8
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 SystemRequirements: Cargo (Rust's package manager), rustc
 Biarch: true
 Config/testthat/edition: 3
 Config/string2path/MSRV: 1.65.0
 NeedsCompilation: yes
-Packaged: 2024-08-24 03:25:17 UTC; Yutani
+Packaged: 2025-02-08 06:19:45 UTC; yutani
 Author: Hiroaki Yutani [aut, cre] (<https://orcid.org/0000-0002-3385-7233>),
   The authors of the dependency Rust crates [ctb] (see inst/AUTHORS file
     for details)
 Maintainer: Hiroaki Yutani <yutani.ini@gmail.com>
 Repository: CRAN
-Date/Publication: 2024-08-24 04:50:03 UTC
+Date/Publication: 2025-02-08 06:50:02 UTC
