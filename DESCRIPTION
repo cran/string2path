@@ -1,6 +1,6 @@
 Package: string2path
 Title: Rendering Font into 'data.frame'
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: 
     c(person(given = "Hiroaki",
              family = "Yutani",
@@ -25,12 +25,12 @@ RoxygenNote: 7.3.2
 SystemRequirements: Cargo (Rust's package manager), rustc
 Biarch: true
 Config/testthat/edition: 3
-Config/string2path/MSRV: 1.65.0
+Config/string2path/MSRV: 1.78.0
 NeedsCompilation: yes
-Packaged: 2025-02-08 06:19:45 UTC; yutani
+Packaged: 2025-03-20 02:37:56 UTC; yutan
 Author: Hiroaki Yutani [aut, cre] (<https://orcid.org/0000-0002-3385-7233>),
   The authors of the dependency Rust crates [ctb] (see inst/AUTHORS file
     for details)
 Maintainer: Hiroaki Yutani <yutani.ini@gmail.com>
 Repository: CRAN
-Date/Publication: 2025-02-08 06:50:02 UTC
+Date/Publication: 2025-03-20 04:10:07 UTC
