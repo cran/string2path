@@ -1,8 +1,8 @@
-eeebc8555da6ed3bf86339997411f1ec *DESCRIPTION
+7dab76354a48af5d9058ed20bbbb5be3 *DESCRIPTION
 976b3a74a65b3141bfc88556d8d3c608 *LICENSE
 6c7a4228dfb78b6af64ea8553cba98ac *LICENSE.note
 34d9817d560189220f544c1bd339886c *NAMESPACE
-5e06867c0a2826cf473da63e1cfbaae8 *NEWS.md
+74c12d83704ac48354e3c2c741a123f3 *NEWS.md
 42eb6a0a32d8e9234123589699bbc693 *R/000-wrappers.R
 28b65683b728d010c6a5132222af6cc9 *R/dump_fontdb.R
 a096b8d0d9420e3f51814dbcbe2b623d *R/main.R
@@ -14,8 +14,8 @@ df665c330920d29973e9723a009da3f1 *cleanup
 a0a4dfc86e5b025f3d7a3c9d258d6311 *inst/AUTHORS
 456498a62080efeec585b99a0f0a04b9 *man/dump_fontdb.Rd
 a99ad4811e4e4158c368d7d197ba82e3 *man/string2path.Rd
-c1135f1df1aa6d7a536c23d75ef4f881 *src/Makevars.in
-8407537bbef2e8a709303db03c13ce4c *src/Makevars.win.in
+486474bbcf0ed22ddd7cf556d9289649 *src/Makevars.in
+5576d29a8b0cccaacc375eaec4c57736 *src/Makevars.win.in
 d4c7febd30951f7fbd584476dbb2dd70 *src/cargo_vendor_config.toml
 f2b35b53130de4b91e5caa60334dfda3 *src/init.c
 f4c0a442f6274f9435d566e570312126 *src/rust/Cargo.lock

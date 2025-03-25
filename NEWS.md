@@ -1,3 +1,7 @@
+# string2path 0.2.2
+
+* Fix a CRAN warning (#149).
+
 # string2path 0.2.1
 
 * Fix a regression about fill rule (#131).
