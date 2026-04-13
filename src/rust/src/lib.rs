@@ -1,4 +1,4 @@
-use font::FONTDB;
+use font::FONT_COLLECTION;
 use result::FontDBTibble;
 use savvy::savvy;
 
@@ -17,7 +17,7 @@ enum ConversionType {
 fn string2any_family(
     text: &str,
     font_family: &str,
-    font_weight: &str,
+    font_weight: f64,
     font_style: &str,
     tolerance: f64,
     line_width: f64,
@@ -76,7 +76,7 @@ fn string2any_file(
 fn string2path_family(
     text: &str,
     font_family: &str,
-    font_weight: &str,
+    font_weight: f64,
     font_style: &str,
     tolerance: f64,
 ) -> savvy::Result<savvy::Sexp> {
@@ -100,7 +100,7 @@ fn string2path_file(text: &str, font_file: &str, tolerance: f64) -> savvy::Resul
 fn string2stroke_family(
     text: &str,
     font_family: &str,
-    font_weight: &str,
+    font_weight: f64,
     font_style: &str,
     tolerance: f64,
     line_width: f64,
@@ -136,7 +136,7 @@ fn string2stroke_file(
 fn string2fill_family(
     text: &str,
     font_family: &str,
-    font_weight: &str,
+    font_weight: f64,
     font_style: &str,
     tolerance: f64,
 ) -> savvy::Result<savvy::Sexp> {
@@ -158,60 +158,39 @@ fn string2fill_file(text: &str, font_file: &str, tolerance: f64) -> savvy::Resul
 
 #[savvy]
 fn dump_fontdb_impl() -> savvy::Result<savvy::Sexp> {
-    let mut source: Vec<String> = Vec::new();
     let mut index: Vec<i32> = Vec::new();
     let mut family: Vec<String> = Vec::new();
-    let mut weight: Vec<String> = Vec::new();
+    let mut weight: Vec<f64> = Vec::new();
     let mut style: Vec<String> = Vec::new();
 
-    for f in FONTDB.faces() {
-        source.push(match f.source {
-            fontdb::Source::Binary(_) => "(binary)".to_string(),
-            fontdb::Source::File(ref path) => path.to_string_lossy().to_string(),
-            fontdb::Source::SharedFile(ref path, _) => path.to_string_lossy().to_string(),
-        });
+    let mut collection = FONT_COLLECTION.lock().unwrap();
 
-        index.push(f.index as _);
+    // Collect all family names first to avoid borrow conflicts during lookup.
+    let family_names: Vec<String> = collection.family_names().map(|s| s.to_string()).collect();
 
-        // TODO: Now fontdb returns multiple family names (localized one?),
-        //       but the current code can accept only one.
-        let family_name = if f.families.is_empty() {
-            "".to_string()
-        } else {
-            f.families[0].0.clone()
+    for name in &family_names {
+        let Some(fam) = collection.family_by_name(name) else {
+            continue;
         };
-        family.push(family_name);
 
-        #[rustfmt::skip]
-        weight.push(
-            match f.weight {
-                fontdb::Weight::THIN        => "thin",
-                fontdb::Weight::EXTRA_LIGHT => "extra_light",
-                fontdb::Weight::LIGHT       => "light",
-                fontdb::Weight::NORMAL      => "normal",
-                fontdb::Weight::MEDIUM      => "medium",
-                fontdb::Weight::SEMIBOLD    => "semibold",
-                fontdb::Weight::BOLD        => "bold",
-                fontdb::Weight::EXTRA_BOLD  => "extra_bold",
-                fontdb::Weight::BLACK       => "black",
-                _                           => "unknown",
-            }
-            .to_string(),
-        );
+        for font_info in fam.fonts() {
+            index.push(font_info.index() as i32);
+            family.push(name.clone());
 
-        #[rustfmt::skip]
-        style.push(
-            match f.style {
-                fontdb::Style::Normal  => "normal",
-                fontdb::Style::Italic  => "italic",
-                fontdb::Style::Oblique => "oblique",
-            }
-            .to_string(),
-        );
+            weight.push(font_info.weight().value() as f64);
+
+            style.push(
+                match font_info.style() {
+                    fontique::FontStyle::Normal => "normal",
+                    fontique::FontStyle::Italic => "italic",
+                    fontique::FontStyle::Oblique(_) => "oblique",
+                }
+                .to_string(),
+            );
+        }
     }
 
     let result = FontDBTibble {
-        source,
         index,
         family,
         weight,
@@ -233,16 +212,20 @@ mod tests {
             .unwrap();
         let result = builder.into_path();
 
-        assert!(result
-            .x
-            .iter()
-            .zip(vec![0., 100. / 125., 0., 0.])
-            .all(|(actual, expect)| (expect - actual).abs() < f64::EPSILON.sqrt()));
-        assert!(result
-            .y
-            .iter()
-            .zip(vec![0., 100. / 125., 100. / 125., 0.])
-            .all(|(actual, expect)| (expect - actual).abs() < 0.0001));
+        assert!(
+            result
+                .x
+                .iter()
+                .zip(vec![0., 100. / 125., 0., 0.])
+                .all(|(actual, expect)| (expect - actual).abs() < f64::EPSILON.sqrt())
+        );
+        assert!(
+            result
+                .y
+                .iter()
+                .zip(vec![0., 100. / 125., 100. / 125., 0.])
+                .all(|(actual, expect)| (expect - actual).abs() < 0.0001)
+        );
     }
 
     #[test]
@@ -253,14 +236,18 @@ mod tests {
             .unwrap();
         let result = builder.into_stroke();
 
-        assert!(result
-            .x
-            .iter()
-            .any(|&i| (0. - 0.1..=100. / 125. + 0.1).contains(&i)));
-        assert!(result
-            .y
-            .iter()
-            .any(|&i| (0. - 0.1..=100. / 125. + 0.1).contains(&i)));
+        assert!(
+            result
+                .x
+                .iter()
+                .any(|&i| (0. - 0.1..=100. / 125. + 0.1).contains(&i))
+        );
+        assert!(
+            result
+                .y
+                .iter()
+                .any(|&i| (0. - 0.1..=100. / 125. + 0.1).contains(&i))
+        );
     }
 
     #[test]
@@ -272,15 +259,19 @@ mod tests {
         let result = builder.into_fill();
 
         // TODO: Is this correct...?
-        assert!(result
-            .x
-            .iter()
-            .zip(vec![0., 0., 100. / 125.])
-            .all(|(actual, expect)| (expect - actual).abs() < f64::EPSILON.sqrt()));
-        assert!(result
-            .y
-            .iter()
-            .zip(vec![0., 100. / 125., 100. / 125.])
-            .all(|(actual, expect)| (expect - actual).abs() < f64::EPSILON.sqrt()));
+        assert!(
+            result
+                .x
+                .iter()
+                .zip(vec![0., 0., 100. / 125.])
+                .all(|(actual, expect)| (expect - actual).abs() < f64::EPSILON.sqrt())
+        );
+        assert!(
+            result
+                .y
+                .iter()
+                .zip(vec![0., 100. / 125., 100. / 125.])
+                .all(|(actual, expect)| (expect - actual).abs() < f64::EPSILON.sqrt())
+        );
     }
 }

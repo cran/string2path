@@ -1,62 +1,86 @@
-use ttf_parser::RgbaColor;
+use i_overlay::core::fill_rule::FillRule;
+use i_overlay::float::simplify::SimplifyShape;
 
-use crate::builder::LyonPathBuilderForPath;
+use crate::builder::{LyonPathBuilderForPath, color_to_hex};
 use crate::result::PathTibble;
 
 impl LyonPathBuilderForPath {
-    pub fn into_path(mut self) -> PathTibble {
-        let paths = self.build();
+    pub fn into_path(self) -> PathTibble {
+        let has_color = self.glyph_paths.iter().any(|(_, _, c)| c.is_some());
 
         let mut x = Vec::new();
         let mut y = Vec::new();
         let mut glyph_id = Vec::new();
         let mut path_id = Vec::new();
-        let mut color = if self.layer_color.is_empty() {
-            None
-        } else {
-            Some(Vec::new())
-        };
+        let mut color_vec: Vec<String> = Vec::new();
+        let mut out_path_id: u32 = 0;
 
-        let mut cur_path_id: u32 = 0;
-        for (path, paint_color) in paths {
-            let paint_color = match paint_color {
-                Some(RgbaColor {
-                    red,
-                    green,
-                    blue,
-                    alpha,
-                }) => format!("#{red:02x}{green:02x}{blue:02x}{alpha:02x}",),
-                None => "#00000000".to_string(),
-            };
-            for p in path.iter() {
-                let point = match p {
+        for (gid, glyph_path, paint_color) in &self.glyph_paths {
+            let mut contours: Vec<Vec<[f32; 2]>> = Vec::new();
+            let mut cur_contour: Vec<[f32; 2]> = Vec::new();
+
+            for event in glyph_path.iter() {
+                match event {
                     lyon::path::Event::Begin { at } => {
-                        cur_path_id += 1;
-                        Some(at)
+                        cur_contour = vec![[at.x, at.y]];
                     }
-                    lyon::path::Event::Line { to, .. } => Some(to),
-                    lyon::path::Event::Quadratic { to, .. } => Some(to),
-                    lyon::path::Event::Cubic { to, .. } => Some(to),
-                    // glyph can be "open path," even when `close` is true. In that case, `first` should point to the begin point.
-                    lyon::path::Event::End { last, first, close } => {
-                        if close && last != first {
-                            Some(first)
+                    lyon::path::Event::Line { to, .. } => {
+                        cur_contour.push([to.x, to.y]);
+                    }
+                    lyon::path::Event::End { first, close, .. } => {
+                        if close {
+                            cur_contour.push([first.x, first.y]);
+                        }
+                        // i_overlay needs at least 3 distinct points to form a polygon.
+                        if cur_contour.len() >= 3 {
+                            contours.push(std::mem::take(&mut cur_contour));
                         } else {
-                            None
+                            cur_contour.clear();
                         }
                     }
-                };
+                    // Quadratic / Cubic do not appear in a FlattenedPathBuilder output.
+                    _ => {}
+                }
+            }
 
-                if let Some(pos) = point {
-                    x.push(pos.x as _);
-                    y.push(pos.y as _);
+            if contours.is_empty() {
+                continue;
+            }
 
-                    let cur_glyph_id = *self.glyph_id_map.get(&cur_path_id).unwrap_or(&0) as _;
-                    glyph_id.push(cur_glyph_id);
-                    path_id.push(cur_path_id as _);
+            // simplify_shape(NonZero) merges overlapping contours (e.g. components
+            // of a composite glyph) while preserving counter-shapes (holes).
+            let merged = contours.simplify_shape(FillRule::NonZero);
 
-                    if let Some(v) = color.as_mut() {
-                        v.push(paint_color.clone())
+            let color_str = if has_color {
+                Some(color_to_hex(*paint_color))
+            } else {
+                None
+            };
+
+            for shape in merged {
+                for contour in shape {
+                    if contour.is_empty() {
+                        continue;
+                    }
+                    out_path_id += 1;
+                    let first = contour[0];
+                    let n_points = contour.len() + 1; // contour points + closing point
+                    for pt in &contour {
+                        x.push(pt[0] as f64);
+                        y.push(pt[1] as f64);
+                        glyph_id.push(*gid as i32);
+                        path_id.push(out_path_id as i32);
+                    }
+                    // i_overlay returns implicitly-closed contours (no repeated first
+                    // point). Append the first point again so geom_path() draws a
+                    // closed polygon.
+                    x.push(first[0] as f64);
+                    y.push(first[1] as f64);
+                    glyph_id.push(*gid as i32);
+                    path_id.push(out_path_id as i32);
+
+                    if let Some(s) = &color_str {
+                        color_vec.extend(std::iter::repeat_n(s.clone(), n_points));
                     }
                 }
             }
@@ -68,7 +92,7 @@ impl LyonPathBuilderForPath {
             glyph_id,
             path_id: Some(path_id),
             triangle_id: None,
-            color,
+            color: if has_color { Some(color_vec) } else { None },
         }
     }
 }

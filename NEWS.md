@@ -1,3 +1,15 @@
+# string2path 0.3.0
+
+* Fix a CRAN linker warning about macOS deployment target mismatch on M1
+  by setting `MACOSX_DEPLOYMENT_TARGET` before invoking cargo (#202, #208).
+
+* Migrate to fontique and skrifa (#99).
+  * Support variable fonts.
+  * Drop support for WASM for now.
+
+* `font_weight` now accepts numeric values (e.g. `400`) in addition to
+  character strings (e.g. `"normal"`).
+
 # string2path 0.2.2
 
 * Fix a CRAN warning (#149).

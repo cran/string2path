@@ -1,6 +1,6 @@
 Package: string2path
 Title: Rendering Font into 'data.frame'
-Version: 0.2.2
+Version: 0.3.0
 Authors@R: 
     c(person(given = "Hiroaki",
              family = "Yutani",
@@ -21,16 +21,17 @@ URL: https://yutannihilation.github.io/string2path/,
         https://github.com/yutannihilation/string2path
 BugReports: https://github.com/yutannihilation/string2path/issues
 Encoding: UTF-8
-RoxygenNote: 7.3.2
-SystemRequirements: Cargo (Rust's package manager), rustc
+RoxygenNote: 7.3.3
+SystemRequirements: Cargo (Rust's package manager), rustc, fontconfig
 Biarch: true
 Config/testthat/edition: 3
-Config/string2path/MSRV: 1.78.0
+Config/string2path/MSRV: 1.88.0
 NeedsCompilation: yes
-Packaged: 2025-03-25 22:39:42 UTC; yutan
-Author: Hiroaki Yutani [aut, cre] (<https://orcid.org/0000-0002-3385-7233>),
+Packaged: 2026-04-13 09:46:20 UTC; yutan
+Author: Hiroaki Yutani [aut, cre] (ORCID:
+    <https://orcid.org/0000-0002-3385-7233>),
   The authors of the dependency Rust crates [ctb] (see inst/AUTHORS file
     for details)
 Maintainer: Hiroaki Yutani <yutani.ini@gmail.com>
 Repository: CRAN
-Date/Publication: 2025-03-25 23:20:02 UTC
+Date/Publication: 2026-04-13 16:00:02 UTC
